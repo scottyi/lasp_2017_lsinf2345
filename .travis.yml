@@ -1,0 +1,26 @@
+language: erlang
+otp_release:
+  - 19.2
+install:
+  - make
+  - ./rebar3 update
+before_script:
+  - epmd -daemon
+services:
+  - redis-server
+script:
+  - make eunit
+  - make xref
+  - make ct
+  - make peer-to-peer-ad-counter-simulation
+  - make client-server-ad-counter-simulation
+  - make peer-to-peer-game-tournament-simulation
+  - make client-server-game-tournament-simulation
+notifications:
+  email: christopher.meiklejohn@gmail.com
+  slack: lasp-lang:hiPRNnbUa3zdGrrXZfGRAF7D
+  irc: "irc.freenode.org#lasp-lang"
+sudo: false
+env:
+  global:
+    - OMIT_HIGH_ULIMIT=true
